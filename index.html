@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zoom 증명 이미지 생성기</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="control-panel" aria-label="이미지 설정">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>Zoom 증명 이미지 생성기</h1>
+            <p>2x2 회의 화면 PNG</p>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="section-title">회의 화면</div>
+          <label class="field">
+            <span>방 이름</span>
+            <input id="meetingTitle" type="text" value="Workplace" maxlength="32" />
+          </label>
+          <label class="field">
+            <span>출력 크기</span>
+            <select id="sizePreset">
+              <option value="1912x1122" selected>1912 x 1122</option>
+            </select>
+          </label>
+          <div class="toggle-row">
+            <label>
+              <input id="showChrome" type="checkbox" checked />
+              <span>상단/하단 바</span>
+            </label>
+            <label>
+              <input id="showDividers" type="checkbox" checked />
+              <span>화면 구분선</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-title">참가자</div>
+          <div id="participantList" class="participant-list"></div>
+        </section>
+
+        <section class="section action-section">
+          <button id="downloadBtn" class="primary-button" type="button">PNG 저장</button>
+          <button id="resetBtn" class="ghost-button" type="button">초기화</button>
+        </section>
+      </aside>
+
+      <section class="preview-panel" aria-label="미리보기">
+        <div class="preview-toolbar">
+          <div>
+            <strong>미리보기</strong>
+            <span id="canvasSizeLabel">1912 x 1122</span>
+          </div>
+          <button id="refreshBtn" class="small-button" type="button">새로고침</button>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="zoomCanvas" width="1912" height="1122"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <template id="participantTemplate">
+      <article class="participant-card">
+        <div class="card-head">
+          <span class="participant-number"></span>
+          <label class="file-button">
+            사진 선택
+            <input class="photo-input" type="file" accept="image/*" />
+          </label>
+        </div>
+        <label class="field compact">
+          <span>닉네임</span>
+          <input class="name-input" type="text" maxlength="28" />
+        </label>
+        <label class="field compact">
+          <span>위치</span>
+          <select class="slot-select">
+            <option value="top-left">왼쪽 위</option>
+            <option value="top-right">오른쪽 위</option>
+            <option value="bottom-left">왼쪽 아래</option>
+            <option value="bottom-right">오른쪽 아래</option>
+          </select>
+        </label>
+        <label class="field compact">
+          <span>맞춤</span>
+          <select class="fit-select">
+            <option value="cover">화면 채우기</option>
+            <option value="contain">전체 보이기</option>
+          </select>
+        </label>
+        <label class="background-blind-toggle">
+          <input class="background-blind-input" type="checkbox" />
+          <span>배경 블라인드</span>
+        </label>
+        <label class="active-border-toggle">
+          <input class="active-border-input" type="checkbox" />
+          <span>초록 테두리</span>
+        </label>
+        <label class="range-field">
+          <span>확대</span>
+          <input class="zoom-input" type="range" min="1" max="2.4" step="0.02" value="1" />
+        </label>
+        <div class="range-grid">
+          <label class="range-field">
+            <span>좌우</span>
+            <input class="offset-x-input" type="range" min="-100" max="100" step="1" value="0" />
+          </label>
+          <label class="range-field">
+            <span>상하</span>
+            <input class="offset-y-input" type="range" min="-100" max="100" step="1" value="0" />
+          </label>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
